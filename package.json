@@ -1,0 +1,12 @@
+{
+  "name": "x-auto-tweet-bot",
+  "version": "1.0.0",
+  "main": "tweet_bot.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node tweet_bot.js"
+  },
+  "dependencies": {
+    "playwright": "^1.43.0"
+  }
+}
