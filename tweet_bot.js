@@ -10,6 +10,7 @@ const tweetMessage = `🔥 Auto Tweet: It's a great day for cricket! 🏏 #Crick
     const page = await context.newPage();
 
     try {
+        console.log("🔐 Opening Twitter login...");
         await page.goto('https://twitter.com/login', { waitUntil: 'networkidle' });
 
         await page.fill('input[name="text"]', email);
@@ -18,14 +19,19 @@ const tweetMessage = `🔥 Auto Tweet: It's a great day for cricket! 🏏 #Crick
 
         await page.fill('input[name="password"]', password);
         await page.keyboard.press('Enter');
-        await page.waitForTimeout(5000);
+        await page.waitForTimeout(5000); // wait for login to complete
 
-        // Click the tweet box and type message
-        await page.click('div[aria-label="Tweet text"]');
+        console.log("🕵️ Waiting for tweet button...");
+        await page.waitForSelector('div[role="textbox"]', { timeout: 15000 });
+
+        console.log("✍️ Typing tweet...");
+        await page.click('div[role="textbox"]');
         await page.keyboard.type(tweetMessage);
 
-        // Click the Tweet button
+        await page.waitForTimeout(2000); // let typing settle
+        console.log("📤 Posting tweet...");
         await page.click('div[data-testid="tweetButtonInline"]');
+
         console.log("✅ Tweet posted successfully.");
     } catch (error) {
         console.error("❌ Error tweeting:", error);
